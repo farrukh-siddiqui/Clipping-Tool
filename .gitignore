@@ -1,6 +1,6 @@
 
-# dependencies
-/node_modules
+# dependencies (frontend)
+**/node_modules/
 /.pnp
 .pnp.*
 .yarn/*
@@ -10,14 +10,14 @@
 !.yarn/versions
 
 # testing
-/coverage
+**/coverage/
 
 # next.js
-/.next/
-/out/
+**/.next/
+**/out/
 
 # production
-/build
+**/build/
 
 # misc
 .DS_Store
@@ -41,8 +41,9 @@ next-env.d.ts
 
 
 
-#backend
+# backend (engine)
 .env
+**/.env
 temp/
 outputs/
 __pycache__/
@@ -53,5 +54,7 @@ __pycache__/
 dist/
 build/
 .venv/
+venv/
 jobs/
 *.db
+.cursor/
