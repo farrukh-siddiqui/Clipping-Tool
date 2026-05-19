@@ -1,0 +1,11 @@
+openai-whisper
+openai
+python-dotenv
+pysubs2
+fastapi
+uvicorn[standard]
+python-multipart
+sqlalchemy
+python-jose[cryptography]
+passlib[bcrypt]
+pydantic[email]

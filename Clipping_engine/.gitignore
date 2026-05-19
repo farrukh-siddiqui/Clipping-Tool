@@ -1,0 +1,13 @@
+.env
+temp/
+outputs/
+__pycache__/
+*.pyc
+*.mp4
+*.wav
+*.egg-info/
+dist/
+build/
+.venv/
+jobs/
+*.db
