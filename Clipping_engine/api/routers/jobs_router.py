@@ -155,12 +155,15 @@ def download_clip(
     if job.status != "completed":
         raise HTTPException(status_code=400, detail=f"Job is {job.status}, not completed")
 
+    edited_path = JOBS_DIR / job_id / "outputs" / f"clip_{clip_number}_edited.mp4"
     clip_path = JOBS_DIR / job_id / "outputs" / f"clip_{clip_number}.mp4"
-    if not clip_path.exists():
+
+    serve_path = edited_path if edited_path.exists() else clip_path
+    if not serve_path.exists():
         raise HTTPException(status_code=404, detail=f"Clip {clip_number} not found")
 
     return FileResponse(
-        path=str(clip_path),
+        path=str(serve_path),
         media_type="video/mp4",
         filename=f"clip_{clip_number}.mp4",
     )

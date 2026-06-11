@@ -7,6 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from api.database import create_tables
 from api.routers.auth_router import router as auth_router
+from api.routers.edit_router import router as edit_router
 from api.routers.jobs_router import router as jobs_router
 
 
@@ -33,6 +34,7 @@ app.add_middleware(
 
 app.include_router(auth_router)
 app.include_router(jobs_router)
+app.include_router(edit_router)
 
 
 @app.get("/health", tags=["system"])

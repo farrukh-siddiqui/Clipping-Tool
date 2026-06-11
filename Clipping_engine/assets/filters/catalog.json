@@ -1,0 +1,12 @@
+[
+  {"id": "warm", "name": "Warm", "description": "Golden warm tones, slightly boosted saturation"},
+  {"id": "cool", "name": "Cool", "description": "Blue-shifted cool tones"},
+  {"id": "vintage", "name": "Vintage", "description": "Faded retro film look"},
+  {"id": "cinematic", "name": "Cinematic", "description": "High contrast, desaturated film grade"},
+  {"id": "bw", "name": "Black & White", "description": "Classic monochrome with boosted contrast"},
+  {"id": "high_contrast", "name": "High Contrast", "description": "Punchy contrast with vivid colors"},
+  {"id": "muted", "name": "Muted", "description": "Soft desaturated pastel look"},
+  {"id": "vivid", "name": "Vivid", "description": "Hyper-saturated bold colors"},
+  {"id": "film_grain", "name": "Film Grain", "description": "Analog noise with slight desaturation"},
+  {"id": "golden_hour", "name": "Golden Hour", "description": "Warm sunset glow with soft highlights"}
+]

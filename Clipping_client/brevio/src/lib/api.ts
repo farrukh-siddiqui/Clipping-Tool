@@ -2,6 +2,12 @@ import type {
   JobResponse,
   JobListResponse,
   JobCreateParams,
+  FilterPreset,
+  MusicTrack,
+  EditClipParams,
+  EditClipResponse,
+  MetadataResponse,
+  VerticalResponse,
 } from "./types";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
@@ -115,6 +121,51 @@ export const api = {
   /** Same-origin URL for `<video>` playback (uses cookie via Next route). */
   getClipPlaybackUrl(jobId: string, clipNumber: number) {
     return `/api/jobs/${jobId}/clips/${clipNumber}`;
+  },
+
+  listFilters() {
+    return request<FilterPreset[]>("/assets/filters");
+  },
+
+  listMusic() {
+    return request<MusicTrack[]>("/assets/music");
+  },
+
+  getMusicPreviewUrl(musicId: string) {
+    return `${API_BASE}/assets/music/${musicId}/preview`;
+  },
+
+  editClip(jobId: string, clipNumber: number, params: EditClipParams) {
+    return request<EditClipResponse>(`/jobs/${jobId}/clips/${clipNumber}/edit`, {
+      method: "POST",
+      body: JSON.stringify(params),
+    });
+  },
+
+  revertClip(jobId: string, clipNumber: number) {
+    return request<EditClipResponse>(`/jobs/${jobId}/clips/${clipNumber}/edit`, {
+      method: "DELETE",
+    });
+  },
+
+  generateMetadata(jobId: string, clipNumber: number) {
+    return request<MetadataResponse>(`/jobs/${jobId}/clips/${clipNumber}/metadata`, {
+      method: "POST",
+    });
+  },
+
+  getMetadata(jobId: string, clipNumber: number) {
+    return request<MetadataResponse>(`/jobs/${jobId}/clips/${clipNumber}/metadata`);
+  },
+
+  convertVertical(jobId: string, clipNumber: number) {
+    return request<VerticalResponse>(`/jobs/${jobId}/clips/${clipNumber}/vertical`, {
+      method: "POST",
+    });
+  },
+
+  getVerticalClipUrl(jobId: string, clipNumber: number) {
+    return `${API_BASE}/jobs/${jobId}/clips/${clipNumber}/vertical`;
   },
 };
 

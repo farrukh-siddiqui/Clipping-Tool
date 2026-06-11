@@ -85,6 +85,7 @@ class ClipResult(BaseModel):
     reason_short: Optional[str] = None
     hook_text: str = ""
     transcript_text: str = ""
+    edited: bool = False
 
 
 class JobResult(BaseModel):
@@ -108,3 +109,51 @@ class JobResponse(BaseModel):
 
 class JobListResponse(BaseModel):
     jobs: List[JobResponse]
+
+
+# ── Editor ────────────────────────────────────────────────────────────────────
+
+class FilterInfo(BaseModel):
+    id: str
+    name: str
+    description: str
+
+
+class MusicTrackInfo(BaseModel):
+    id: str
+    name: str
+    artist: str
+    duration_s: int
+    genre: str
+
+
+class EditRequest(BaseModel):
+    filter_id: Optional[str] = Field(default=None, description="Filter preset id to apply")
+    music_id: Optional[str] = Field(default=None, description="Background music track id")
+    music_volume: float = Field(default=0.12, ge=0.0, le=1.0, description="Music volume level (0-1)")
+
+
+class EditResponse(BaseModel):
+    clip_number: int
+    edited: bool
+    filter_id: Optional[str] = None
+    music_id: Optional[str] = None
+
+
+# ── Metadata ──────────────────────────────────────────────────────────────────
+
+class ClipMetadata(BaseModel):
+    title: str = ""
+    description: str = ""
+    tags: List[str] = []
+    hashtags: List[str] = []
+
+
+class MetadataResponse(BaseModel):
+    clip_number: int
+    metadata: ClipMetadata
+
+
+class VerticalResponse(BaseModel):
+    clip_number: int
+    ready: bool

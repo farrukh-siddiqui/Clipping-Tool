@@ -16,6 +16,7 @@ export interface ClipResult {
   reason_short: string | null;
   hook_text: string | null;
   transcript_text: string | null;
+  edited?: boolean;
 }
 
 export interface JobResult {
@@ -39,6 +40,50 @@ export interface JobResponse {
 
 export interface JobListResponse {
   jobs: JobResponse[];
+}
+
+export interface FilterPreset {
+  id: string;
+  name: string;
+  description: string;
+}
+
+export interface MusicTrack {
+  id: string;
+  name: string;
+  artist: string;
+  duration_s: number;
+  genre: string;
+}
+
+export interface ClipMetadata {
+  title: string;
+  description: string;
+  tags: string[];
+  hashtags: string[];
+}
+
+export interface MetadataResponse {
+  clip_number: number;
+  metadata: ClipMetadata;
+}
+
+export interface VerticalResponse {
+  clip_number: number;
+  ready: boolean;
+}
+
+export interface EditClipParams {
+  filter_id?: string | null;
+  music_id?: string | null;
+  music_volume?: number;
+}
+
+export interface EditClipResponse {
+  clip_number: number;
+  edited: boolean;
+  filter_id: string | null;
+  music_id: string | null;
 }
 
 export interface JobCreateParams {
