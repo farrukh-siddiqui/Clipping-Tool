@@ -166,4 +166,5 @@ def download_clip(
         path=str(serve_path),
         media_type="video/mp4",
         filename=f"clip_{clip_number}.mp4",
+        headers={"Cache-Control": "no-store, must-revalidate"},
     )

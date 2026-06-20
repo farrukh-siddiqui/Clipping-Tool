@@ -3,5 +3,8 @@
   {"id": "greenland", "name": "Greenland", "artist": "Chosic", "duration_s": 189, "genre": "cinematic", "file": "greenland.mp3"},
   {"id": "heroism", "name": "Heroism", "artist": "MaxKoMusic", "duration_s": 137, "genre": "epic", "file": "heroism.mp3"},
   {"id": "voyager", "name": "Voyager", "artist": "Chosic", "duration_s": 144, "genre": "cinematic", "file": "voyager.mp3"},
-  {"id": "motivate", "name": "Motivate", "artist": "Wavecont", "duration_s": 312, "genre": "motivational", "file": "motivate.mp3"}
+  {"id": "motivate", "name": "Motivate", "artist": "Wavecont", "duration_s": 312, "genre": "motivational", "file": "motivate.mp3"},
+  {"id": "powerful", "name": "Powerful", "artist": "Chosic", "duration_s": 163, "genre": "epic", "file": "powerful.mp3"},
+  {"id": "expedition_long_version", "name": "Expedition (Long Version)", "artist": "Chosic", "duration_s": 148, "genre": "cinematic", "file": "expedition_long_version.mp3"},
+  {"id": "inspire", "name": "Inspire", "artist": "Ashutosh", "duration_s": 178, "genre": "motivational", "file": "inspire.mp3"}
 ]

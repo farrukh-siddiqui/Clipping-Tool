@@ -133,6 +133,12 @@ async def edit_clip(
         music_volume=body.music_volume,
     )
 
+    if not edited_path.exists() or edited_path.stat().st_size == 0:
+        raise HTTPException(
+            status_code=500,
+            detail="Edit processing completed but output file is missing or empty",
+        )
+
     _mark_clip_edited(job, clip_number, True, db)
 
     return EditResponse(
