@@ -9,6 +9,7 @@ Background music is mixed under speech using amix with configurable volume.
 
 from __future__ import annotations
 
+import os
 import subprocess
 import json as _json
 from pathlib import Path
@@ -142,20 +143,23 @@ def apply_edits(
 
     tmp_dir = Path(output_path).parent / "_edit_tmp"
     tmp_dir.mkdir(exist_ok=True)
-    tmp_file = str(tmp_dir / "filtered.mp4")
+    filtered_tmp = str(tmp_dir / "filtered.mp4")
+    final_tmp = str(tmp_dir / "final.mp4")
 
     try:
         if filter_id and music_path:
-            apply_filter(input_path, tmp_file, filter_id)
-            apply_bgm(tmp_file, output_path, music_path, volume=music_volume)
+            apply_filter(input_path, filtered_tmp, filter_id)
+            apply_bgm(filtered_tmp, final_tmp, music_path, volume=music_volume)
         elif filter_id:
-            apply_filter(input_path, output_path, filter_id)
+            apply_filter(input_path, final_tmp, filter_id)
         else:
-            apply_bgm(input_path, output_path, music_path, volume=music_volume)  # type: ignore[arg-type]
+            apply_bgm(input_path, final_tmp, music_path, volume=music_volume)  # type: ignore[arg-type]
 
+        os.replace(final_tmp, output_path)
         return output_path
     finally:
-        Path(tmp_file).unlink(missing_ok=True)
+        for tmp in (filtered_tmp, final_tmp):
+            Path(tmp).unlink(missing_ok=True)
         if tmp_dir.exists():
             try:
                 tmp_dir.rmdir()

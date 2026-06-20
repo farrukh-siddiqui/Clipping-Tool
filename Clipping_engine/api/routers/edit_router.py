@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import asyncio
 import json
+import os
 from pathlib import Path
 from typing import Any, List
 
@@ -22,7 +23,7 @@ from api.models import (
     MusicTrackInfo,
     VerticalResponse,
 )
-from engine.core.editor import FILTER_PRESETS, apply_edits
+from engine.core.editor import FILTER_PRESETS, _probe_duration, apply_edits
 from engine.core.metadata import generate_clip_metadata
 from engine.core.enhance import reframe_vertical
 
@@ -116,6 +117,7 @@ async def edit_clip(
         raise HTTPException(status_code=404, detail=f"Clip {clip_number} not found")
 
     edited_path = JOBS_DIR / job_id / "outputs" / f"clip_{clip_number}_edited.mp4"
+    vertical_path = JOBS_DIR / job_id / "outputs" / f"clip_{clip_number}_vertical.mp4"
 
     music_path: str | None = None
     if body.music_id:
@@ -138,6 +140,8 @@ async def edit_clip(
             status_code=500,
             detail="Edit processing completed but output file is missing or empty",
         )
+
+    vertical_path.unlink(missing_ok=True)
 
     _mark_clip_edited(job, clip_number, True, db)
 
@@ -289,8 +293,32 @@ async def convert_vertical(
         raise HTTPException(status_code=404, detail=f"Clip {clip_number} not found")
 
     vertical_path = JOBS_DIR / job_id / "outputs" / f"clip_{clip_number}_vertical.mp4"
+    vertical_tmp = JOBS_DIR / job_id / "outputs" / f"clip_{clip_number}_vertical_tmp.mp4"
 
-    await asyncio.to_thread(reframe_vertical, str(source), str(vertical_path))
+    source_dur = _probe_duration(str(source))
+
+    try:
+        await asyncio.to_thread(reframe_vertical, str(source), str(vertical_tmp))
+
+        if not vertical_tmp.exists() or vertical_tmp.stat().st_size == 0:
+            raise HTTPException(
+                status_code=500,
+                detail="Vertical conversion completed but output file is missing or empty",
+            )
+
+        out_dur = _probe_duration(str(vertical_tmp))
+        if abs(out_dur - source_dur) > 2.0:
+            raise HTTPException(
+                status_code=500,
+                detail=(
+                    f"Vertical conversion produced unexpected duration "
+                    f"({out_dur:.1f}s vs source {source_dur:.1f}s). Please retry."
+                ),
+            )
+
+        os.replace(str(vertical_tmp), str(vertical_path))
+    finally:
+        vertical_tmp.unlink(missing_ok=True)
 
     return VerticalResponse(clip_number=clip_number, ready=True)
 
